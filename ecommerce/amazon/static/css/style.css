@@ -1,0 +1,35 @@
+body {
+    font-family: Arial;
+    background-color: skyblue;
+}
+h1 {
+    text-align: center;
+}
+.container {
+    text-align: center;
+}
+.card {
+    background-color: white;
+    width: 250px;
+    margin: 15px;
+    padding: 15px;
+    border: 1px solid black;
+    text-align: center;
+    display: inline-block;  
+    vertical-align: top;
+}
+.product-img {
+    width: 200px;
+    height: 200px;
+}
+
+.price {
+    font-weight: bold;
+}
+
+a {
+    text-decoration: none;
+    background-color: rgb(179, 46, 179);
+    color: white;
+    padding: 5px 10px;
+}
