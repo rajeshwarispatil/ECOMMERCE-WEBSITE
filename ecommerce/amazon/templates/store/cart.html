@@ -1,4 +1,4 @@
-<center><h1>CART</h1></center>
+<h1>CART</h1>
 
 {% if cart_items %}
     {% for item in cart_items %}
@@ -14,9 +14,10 @@
     {% endfor %}
 
     <h2>Grand Total: {{ final_amount }}</h2>
+    <a href="{% url 'checkout' %}">Proceed to Checkout</a>
 
 {% else %}
-    <p>CART IS EMPTY!!</p>
+    <p>Cart is empty</p>
 {% endif %}
 
-<a href="{% url 'product_list' %}">Continue shopping</a>
+<a href="{% url 'product_list' %}">Continue Shopping</a>

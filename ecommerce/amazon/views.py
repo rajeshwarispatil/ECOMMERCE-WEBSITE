@@ -1,17 +1,21 @@
 from django.shortcuts import render, redirect
 from .models import Product
+from django.contrib.auth.decorators import login_required
 
 
+@login_required(login_url='login')
 def product_list(request):
     products = Product.objects.all()
     return render(request, 'store/product_list.html', {'products': products})
 
 
+@login_required(login_url='login')
 def product_detail(request, id):
     product = Product.objects.get(id=id)
     return render(request, 'store/product_detail.html', {'product': product})
 
 
+@login_required(login_url='login')
 def add_to_cart(request, id):
     cart = request.session.get('cart', {})
 
@@ -24,6 +28,7 @@ def add_to_cart(request, id):
     return redirect('view_cart')
 
 
+@login_required(login_url='login')
 def view_cart(request):
     cart = request.session.get('cart', {})
     cart_items = []
@@ -47,6 +52,7 @@ def view_cart(request):
     })
 
 
+@login_required(login_url='login')
 def increase(request, id):
     cart = request.session.get('cart', {})
     cart[str(id)] = cart.get(str(id), 0) + 1
@@ -54,6 +60,7 @@ def increase(request, id):
     return redirect('view_cart')
 
 
+@login_required(login_url='login')
 def decrease(request, id):
     cart = request.session.get('cart', {})
 
@@ -67,6 +74,7 @@ def decrease(request, id):
     return redirect('view_cart')
 
 
+@login_required(login_url='login')
 def remove(request, id):
     cart = request.session.get('cart', {})
 
@@ -75,3 +83,9 @@ def remove(request, id):
 
     request.session['cart'] = cart
     return redirect('view_cart')
+
+
+@login_required(login_url='login')
+def checkout(request):
+    request.session['cart'] = {}
+    return render(request, 'store/checkout.html')
