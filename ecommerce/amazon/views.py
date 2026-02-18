@@ -1,18 +1,28 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Product
 from django.contrib.auth.decorators import login_required
 
 
 @login_required(login_url='login')
 def product_list(request):
-    products = Product.objects.all()
-    return render(request, 'store/product_list.html', {'products': products})
+    query = request.GET.get('q')
+
+    if query:
+        products = Product.objects.filter(name__icontains=query)
+    else:
+        products = Product.objects.all()
+
+    return render(request, 'store/product_list.html', {
+        'products': products
+    })
 
 
 @login_required(login_url='login')
 def product_detail(request, id):
-    product = Product.objects.get(id=id)
-    return render(request, 'store/product_detail.html', {'product': product})
+    product = get_object_or_404(Product, id=id)
+    return render(request, 'store/product_detail.html', {
+        'product': product
+    })
 
 
 @login_required(login_url='login')
@@ -35,7 +45,7 @@ def view_cart(request):
     final_amount = 0
 
     for id in cart:
-        product = Product.objects.get(id=id)
+        product = get_object_or_404(Product, id=id)
         quantity = cart[id]
         total = product.price * quantity
         final_amount += total
